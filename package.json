@@ -1,6 +1,6 @@
 {
   "name": "think_cache",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cache for ThinkKoa, support file, memcache, redis.",
   "main": "index.js",
   "scripts": {
@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "babel-runtime": "6.22.0",
-    "think_lib": "^1.0.2"
+    "think_lib": "^1.x.x"
   }
 }
