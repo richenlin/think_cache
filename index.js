@@ -27,7 +27,7 @@ module.exports = function (options) {
                 } else if (value === null) {
                     return instance.rm(name);
                 } else {
-                    return instance.set(name, lib.isScalar(value) ? value : JSON.stringify(value), options.cache_timeout);
+                    return instance.set(name, (lib.isBoolean(value) || lib.isNumber(value) || lib.isString(value)) ? value : JSON.stringify(value), options.cache_timeout);
                 }
             } catch (e) {
                 return null;
