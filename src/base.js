@@ -7,7 +7,7 @@
  */
 const lib = require('think_lib');
 
-module.extends = class {
+module.exports = class {
     constructor(options = {}) {
         this.options = lib.extend({
             cache_type: 'File', //数据缓存类型 File,Redis,Memcache
