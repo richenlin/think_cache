@@ -27,7 +27,7 @@ list: [...,'cache'], //加载的中间件列表
 config: { //中间件配置
     ...,
     cache: {
-        cache_type: 'File', //数据缓存类型 File,Redis,Memcache
+        cache_type: 'file', //数据缓存类型 file,redis,memcache
         cache_key_prefix: 'ThinkKoa:', //缓存key前置
         cache_timeout: 6 * 3600, //数据缓存有效期，单位: 秒
         cache_file_suffix: '.json', //File缓存方式下文件后缀名
