@@ -1,2 +1,7 @@
+node_modules/
+npm-debug.log
+coverage/
+.idea
 .vscode
-node_modules
+yarn-error.log
+yarn.lock
