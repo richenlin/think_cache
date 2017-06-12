@@ -9,7 +9,7 @@
     "compile": "babel src -d lib",
     "watch-compile": "npm run compile -- --watch",
     "prepublish": "npm run compile && npm test",
-    "eslint": "eslint index.js"
+    "eslint": "eslint src"
   },
   "engines": {
     "node": ">6.0.0"
