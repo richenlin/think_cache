@@ -18,8 +18,8 @@ module.exports = function (options) {
                 }
                 options = lib.extend(options, option || {});
                 options.cache_key_prefix = (~((options.cache_key_prefix).indexOf(':'))) ? `${options.cache_key_prefix}Cache:` : `${options.cache_key_prefix}:Cache:`;
-                think._cache = require(`./lib/adapter/${options.cache_type}.js`);
-                let instance = new (think._cache)(options);
+                think._stores = require(`./lib/adapter/${options.cache_type}.js`);
+                let instance = new (think._stores)(options);
                 if (value === undefined) {
                     return instance.get(name).then(val => {
                         return lib.isJSONStr(val) ? JSON.parse(val) : val;
