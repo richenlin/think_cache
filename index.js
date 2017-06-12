@@ -9,6 +9,9 @@ const lib = require('think_lib');
 
 module.exports = function (options) {
     think.app.once('appReady', () => {
+        options.cache_key_prefix = (~((options.cache_key_prefix).indexOf(':'))) ? `${options.cache_key_prefix}Cache:` : `${options.cache_key_prefix}:Cache:`;
+        think._stores = require(`./lib/adapter/${options.cache_type || 'file'}.js`);
+
         think.cache = function (name, value, option) {
             try {
                 if (lib.isNumber(option)) {
@@ -16,9 +19,7 @@ module.exports = function (options) {
                 } else if (option === null) {
                     options.cache_timeout = null;
                 }
-                options = lib.extend(options, option || {});
-                options.cache_key_prefix = (~((options.cache_key_prefix).indexOf(':'))) ? `${options.cache_key_prefix}Cache:` : `${options.cache_key_prefix}:Cache:`;
-                think._stores = require(`./lib/adapter/${options.cache_type || 'file'}.js`);
+
                 let instance = new (think._stores)(options);
                 if (value === undefined) {
                     return instance.get(name).then(val => {
