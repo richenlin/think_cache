@@ -76,7 +76,7 @@ module.exports = class extends base {
      */
     batchrm(keyword) {
         return this.handle.wrap('keys', keyword + '*').then(keys => {
-            if (THINK.isEmpty(keys)) {
+            if (lib.isEmpty(keys)) {
                 return null;
             }
             return this.handle.wrap('del', [keys]);

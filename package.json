@@ -1,6 +1,6 @@
 {
   "name": "think_cache",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Cache for ThinkKoa, support file, memcache, redis.",
   "main": "index.js",
   "scripts": {
