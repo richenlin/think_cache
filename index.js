@@ -10,7 +10,7 @@ const lib = require('think_lib');
 module.exports = function (options) {
     think.app.once('appReady', () => {
         options.cache_key_prefix = (~((options.cache_key_prefix).indexOf(':'))) ? `${options.cache_key_prefix}Cache:` : `${options.cache_key_prefix}:Cache:`;
-        lib.define(think, '_stores', require(`./lib/adapter/${options.cache_type || 'file'}.js`));
+        think._caches._stores = require(`./lib/adapter/${options.cache_type || 'file'}.js`);
 
         lib.define(think, 'cache', function (name, value, option) {
             try {
@@ -20,7 +20,7 @@ module.exports = function (options) {
                     options.cache_timeout = null;
                 }
 
-                let instance = new (think._stores)(options);
+                let instance = new (think._caches._stores)(options);
                 if (value === undefined) {
                     return instance.get(name).then(val => {
                         return lib.isJSONStr(val) ? JSON.parse(val) : val;
