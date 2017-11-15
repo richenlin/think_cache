@@ -33,9 +33,10 @@ const defaultOptions = {
     memcache_timeout: 10, //try connection timeout,
 };
 
-module.exports = function (options) {
+module.exports = function (options, app) {
     options = options ? lib.extend(defaultOptions, options, true) : defaultOptions;
-    think.app.once('appReady', () => {
+    let koa = global.think ? (think.app || {}) : (app.koa || {});
+    koa.once('appReady', () => {
         options.type = options.cache_type || 'file'; //数据缓存类型 file,redis,memcache
         options.key_prefix = (~((options.cache_key_prefix).indexOf(':'))) ? `${options.cache_key_prefix}Cache:` : `${options.cache_key_prefix}:Cache:`; //缓存key前缀
         options.timeout = options.cache_timeout || 6 * 3600; //数据缓存有效期，单位: 秒
