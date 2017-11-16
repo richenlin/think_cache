@@ -17,7 +17,7 @@ const defaultOptions = {
 
     //cache_type=file
     file_suffix: '.json', //File缓存方式下文件后缀名
-    file_path: __dirname + '/cache',
+    file_path: process.env.APP_PATH + '/cache',
 
     //cache_type=redis
     redis_host: '127.0.0.1',
@@ -40,13 +40,13 @@ module.exports = function (options, app) {
         options.key_prefix = (~((options.cache_key_prefix).indexOf(':'))) ? `${options.cache_key_prefix}Cache:` : `${options.cache_key_prefix}:Cache:`; //缓存key前缀
         options.timeout = options.cache_timeout || 6 * 3600; //数据缓存有效期，单位: 秒
         // caches handle
-        Object.defineProperty(app, '_caches', {
+        Object.defineProperty(app, 'store', {
             value: {},
             writable: true,
             configurable: false,
             enumerable: false
         });
-        app._caches = store.getInstance(options);
+        app.store = store.getInstance(options);
 
         lib.define(app, 'cache', function (name, value, option) {
             try {
@@ -56,13 +56,13 @@ module.exports = function (options, app) {
                     options.cache_timeout = null;
                 }
                 if (value === undefined) {
-                    return app._caches.get(name).then(val => {
+                    return app.store.get(name).then(val => {
                         return lib.isJSONStr(val) ? JSON.parse(val) : val;
                     });
                 } else if (value === null) {
-                    return app._caches.rm(name);
+                    return app.store.rm(name);
                 } else {
-                    return app._caches.set(name, (lib.isBoolean(value) || lib.isNumber(value) || lib.isString(value)) ? value : JSON.stringify(value), options.cache_timeout);
+                    return app.store.set(name, (lib.isBoolean(value) || lib.isNumber(value) || lib.isString(value)) ? value : JSON.stringify(value), options.cache_timeout);
                 }
             } catch (e) {
                 return null;
