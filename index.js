@@ -39,14 +39,8 @@ module.exports = function (options, app) {
         options.type = options.cache_type || 'file'; //数据缓存类型 file,redis,memcache
         options.key_prefix = (~((options.cache_key_prefix).indexOf(':'))) ? `${options.cache_key_prefix}Cache:` : `${options.cache_key_prefix}:Cache:`; //缓存key前缀
         options.timeout = options.cache_timeout || 6 * 3600; //数据缓存有效期，单位: 秒
-        // caches handle
-        Object.defineProperty(app, 'store', {
-            value: {},
-            writable: true,
-            configurable: false,
-            enumerable: false
-        });
-        app.store = store.getInstance(options);
+        
+        app._caches.store = store.getInstance(options);
 
         lib.define(app, 'cache', function (name, value, option) {
             try {
@@ -56,13 +50,13 @@ module.exports = function (options, app) {
                     options.cache_timeout = null;
                 }
                 if (value === undefined) {
-                    return app.store.get(name).then(val => {
+                    return app._caches.store.get(name).then(val => {
                         return lib.isJSONStr(val) ? JSON.parse(val) : val;
                     });
                 } else if (value === null) {
-                    return app.store.rm(name);
+                    return app._caches.store.rm(name);
                 } else {
-                    return app.store.set(name, (lib.isBoolean(value) || lib.isNumber(value) || lib.isString(value)) ? value : JSON.stringify(value), options.cache_timeout);
+                    return app._caches.store.set(name, (lib.isBoolean(value) || lib.isNumber(value) || lib.isString(value)) ? value : JSON.stringify(value), options.cache_timeout);
                 }
             } catch (e) {
                 return null;
