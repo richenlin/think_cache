@@ -50,3 +50,14 @@ config: { //中间件配置
     }
 }
 ```
+
+3、使用
+
+```
+// in controller
+this.app.cache(name, value);
+
+//in middleware
+app.cache(name, value);
+
+```

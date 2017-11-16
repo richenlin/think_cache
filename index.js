@@ -17,7 +17,7 @@ const defaultOptions = {
 
     //cache_type=file
     file_suffix: '.json', //File缓存方式下文件后缀名
-    file_path: think.root_path + '/cache',
+    file_path: __dirname + '/cache',
 
     //cache_type=redis
     redis_host: '127.0.0.1',
@@ -35,14 +35,20 @@ const defaultOptions = {
 
 module.exports = function (options, app) {
     options = options ? lib.extend(defaultOptions, options, true) : defaultOptions;
-    let koa = global.think ? (think.app || {}) : (app.koa || {});
-    koa.once('appReady', () => {
+    app.once('appReady', () => {
         options.type = options.cache_type || 'file'; //数据缓存类型 file,redis,memcache
         options.key_prefix = (~((options.cache_key_prefix).indexOf(':'))) ? `${options.cache_key_prefix}Cache:` : `${options.cache_key_prefix}:Cache:`; //缓存key前缀
         options.timeout = options.cache_timeout || 6 * 3600; //数据缓存有效期，单位: 秒
-        think._caches._cache = store.getInstance(options);
+        // caches handle
+        Object.defineProperty(app, '_caches', {
+            value: {},
+            writable: true,
+            configurable: false,
+            enumerable: false
+        });
+        app._caches = store.getInstance(options);
 
-        lib.define(think, 'cache', function (name, value, option) {
+        lib.define(app, 'cache', function (name, value, option) {
             try {
                 if (lib.isNumber(option)) {
                     options.cache_timeout = option;
@@ -50,13 +56,13 @@ module.exports = function (options, app) {
                     options.cache_timeout = null;
                 }
                 if (value === undefined) {
-                    return think._caches._cache.get(name).then(val => {
+                    return app._caches.get(name).then(val => {
                         return lib.isJSONStr(val) ? JSON.parse(val) : val;
                     });
                 } else if (value === null) {
-                    return think._caches._cache.rm(name);
+                    return app._caches.rm(name);
                 } else {
-                    return think._caches._cache.set(name, (lib.isBoolean(value) || lib.isNumber(value) || lib.isString(value)) ? value : JSON.stringify(value), options.cache_timeout);
+                    return app._caches.set(name, (lib.isBoolean(value) || lib.isNumber(value) || lib.isString(value)) ? value : JSON.stringify(value), options.cache_timeout);
                 }
             } catch (e) {
                 return null;

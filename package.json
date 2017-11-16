@@ -1,6 +1,6 @@
 {
   "name": "think_cache",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Cache for ThinkKoa, support file, memcache, redis.",
   "main": "index.js",
   "scripts": {
@@ -10,19 +10,22 @@
     "eslint": "eslint index.js"
   },
   "engines": {
-    "node": ">6.0.0"
+    "node": ">8.0.0"
   },
   "author": "richenlin",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thinkkoa/think_cache/issues"
+  },
+  "homepage": "https://github.com/thinkkoa/think_cache",
   "devDependencies": {
-    "babel-core": "^6.24.1",
-    "babel-eslint": "^7.2.3",
-    "eslint": "^3.19.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.4.2"
+    "eslint": "^4.4.1",
+    "istanbul": "^1.1.0-alpha.1",
+    "mocha": "^3.5.0",
+    "supertest": "^3.0.0"
   },
   "dependencies": {
-    "think_lib": "^1.x.x",
-    "think_store": "^1.x.x"
+    "think_lib": "^2.x.x",
+    "think_store": "^2.x.x"
   }
 }
