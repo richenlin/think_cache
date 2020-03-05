@@ -1,6 +1,6 @@
 {
   "name": "think_cache",
-  "version": "2.0.4",
+  "version": "2.2.0",
   "description": "Cache for ThinkKoa, support file, memcache, redis.",
   "main": "index.js",
   "scripts": {
@@ -19,10 +19,7 @@
   },
   "homepage": "https://github.com/thinkkoa/think_cache",
   "devDependencies": {
-    "eslint": "^4.11.0",
-    "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^4.0.1",
-    "supertest": "^3.0.0"
+    "eslint": "^6.8.0"
   },
   "dependencies": {
     "think_lib": "^2.x.x",
