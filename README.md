@@ -3,7 +3,7 @@
 
 [![npm version](https://badge.fury.io/js/think_cache.svg)](https://badge.fury.io/js/think_cache)
 
-Cache for ThinkKoa, support file, memcache, redis.
+Cache Middleware for ThinkKoa, support file, memcache, redis.
 
 # 安装
 -----
